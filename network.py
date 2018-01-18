@@ -1,3 +1,5 @@
+# original file : https://github.com/znxlwm/pytorch-CycleGAN/blob/master/network.py
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
