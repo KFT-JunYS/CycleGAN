@@ -119,6 +119,8 @@ class CycleGan(object):
 
                 reconstructionB = self.G_B(fake_image_A)
                 A_cycle_loss    = self.L1_loss(reconstructionB, realB) * self.lambdaB
+                
+                A_Idt_loss      = self.L1_loss(fake_image_A, realB) * self.lambdaA * 0.1
 
                 fake_image_B    = self.G_B(realA)
                 D_B_result      = self.D_B(fake_image_B)
@@ -127,7 +129,9 @@ class CycleGan(object):
                 reconstructionA = self.G_A(fake_image_B)
                 B_cycle_loss    = self.L1_loss(reconstructionA, realA) * self.lambdaA
 
-                G_loss = G_A_loss + A_cycle_loss + G_B_loss + B_cycle_loss
+                B_Idt_loss = self.L1_loss(fake_image_B, realA) * self.lambdaB * 0.1
+                
+                G_loss = G_A_loss + G_B_loss + A_cycle_loss + B_cycle_loss + A_Idt_loss + B_Idt_loss
 
                 self.g_optimizer.zero_grad()
                 G_loss.backward()
